@@ -2,14 +2,14 @@
 
 @theme {
   --color-paper: #ffffff;
-  --color-mist: #eef3ef;
-  --color-pine: #1f4a3a;
-  --color-pine-dark: #163629;
-  --color-ink: #16241e;
-  --color-stone: #5d6c65;
-  --color-line: #d6dfd9;
-  --color-sun: #f0b429;
-  --color-sun-soft: #fdf1d3;
+  --color-mist: #f5f4f2;
+  --color-pine: #1b1b1a;
+  --color-pine-dark: #0e0e0d;
+  --color-ink: #1a1a19;
+  --color-stone: #6b6862;
+  --color-line: #e2ded8;
+  --color-sun: #e8792a;
+  --color-sun-soft: #fce6d2;
   --color-danger: #b3261e;
   --color-ok: #2f7a4f;
 
@@ -51,7 +51,7 @@
   @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
 }
 @utility btn-primary {
-  @apply btn bg-sun text-ink hover:bg-[#e4a616];
+  @apply btn bg-sun text-white hover:bg-[#d4691f];
 }
 @utility btn-pine {
   @apply btn bg-pine text-white hover:bg-pine-dark;

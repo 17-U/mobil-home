@@ -1,0 +1,15 @@
+
+> mobilhome-shop-web@1.0.0 dev
+> next dev
+
+▲ Next.js 16.3.5 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.232.1:3000
+- Environments: .env.local
+✓ Ready in 737ms
+✓ Running next.config.mjs took 52ms
+
+✓ Generated AGENTS.md and CLAUDE.md for AI agents. Set `agentRules: false` in next.config to disable.
+ GET / 200 in 2.3s (next.js: 218ms, application-code: 2.1s)
+ GET / 200 in 122ms (next.js: 4ms, application-code: 117ms)
+[?25h

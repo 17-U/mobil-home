@@ -29,50 +29,51 @@ export default async function HomePage() {
   return (
     <>
       {/* ---------- Hero ---------- */}
-      <section className="container-page grid items-end gap-10 pb-16 pt-10 lg:grid-cols-[5fr_6fr] lg:pt-16">
-        <div className="lg:pb-6">
-          <h1 className="text-[2.3rem] sm:text-5xl xl:text-[3.6rem]">
+      <section className="relative -mt-[5.5rem] flex min-h-[640px] items-end overflow-hidden pt-[5.5rem] sm:min-h-[720px]">
+        {heroProduct && (
+          <Image
+            src={heroProduct.image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20" />
+
+        <div className="container-page relative py-16 text-white">
+          <h1 className="max-w-3xl text-[2.3rem] uppercase leading-[1.05] sm:text-5xl xl:text-[3.6rem]">
             Votre mobil-home, livré, installé et raccordé.
           </h1>
-          <p className="mt-6 max-w-[34rem] text-lg text-stone">
+          <p className="mt-6 max-w-[34rem] text-lg font-semibold text-sun">
             Sur nos modèles neufs, le prix affiché comprend le transport jusqu’à 100 km, l’installation, les raccordements
             et une terrasse de 2,5 × 4,5 m. Réservez en ligne avec un acompte de {deposit} %.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/categorie/mobil-homes-neufs" className="btn-primary">Voir les modèles neufs</Link>
-            <Link href="/categorie/mobil-homes-occasion" className="btn-ghost">Voir les occasions</Link>
+            <Link href="/categorie/mobil-homes-occasion" className="btn bg-white/10 text-white hover:bg-white/20">
+              Voir les occasions
+            </Link>
           </div>
+          {heroProduct && (
+            <Link href={`/produit/${heroProduct.slug}`} className="mt-10 flex max-w-sm items-center justify-between gap-4 border-t border-white/20 pt-4 text-sm hover:text-sun">
+              <span className="font-semibold">{heroProduct.title}, neuf</span>
+              <span className="text-white/70">{priceLabel(heroProduct)}</span>
+            </Link>
+          )}
         </div>
-
-        {heroProduct && (
-          <Link href={`/produit/${heroProduct.slug}`} className="group block">
-            <div className="relative aspect-[5/4] overflow-hidden rounded-md bg-mist">
-              <Image
-                src={heroProduct.image}
-                alt={heroProduct.title}
-                fill
-                priority
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              />
-            </div>
-            <p className="mt-3 flex justify-between gap-4 text-sm">
-              <span className="font-semibold group-hover:text-pine">{heroProduct.title}, neuf</span>
-              <span className="text-stone">{priceLabel(heroProduct)}</span>
-            </p>
-          </Link>
-        )}
       </section>
 
       {/* ---------- Catégories ---------- */}
-      <section className="bg-mist py-16">
+      <section className="bg-pine py-16 text-white">
         <div className="container-page">
-          <h2 className="text-3xl sm:text-4xl">Que cherchez-vous ?</h2>
+          <h2 className="text-3xl uppercase sm:text-4xl">Que cherchez-vous ?</h2>
           <ul className="mt-10 grid gap-8 md:grid-cols-3">
             {categories.map((c, i) => (
               <li key={c.slug}>
                 <Link href={`/categorie/${c.slug}`} className="group block">
-                  <div className="relative aspect-[3/2] overflow-hidden rounded-md bg-white">
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
                     {covers[i]?.image && (
                       <Image
                         src={covers[i].image}
@@ -82,12 +83,18 @@ export default async function HomePage() {
                         className={`transition-transform duration-500 group-hover:scale-[1.03] ${c.slug === 'pieces-detachees' ? 'object-contain p-8' : 'object-cover'}`}
                       />
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6">
+                      <h3 className="text-xl uppercase text-white">{c.name}</h3>
+                      <p className="mt-1 text-white/75">
+                        {c.count} {c.slug === 'pieces-detachees' ? 'pièces' : 'modèles'}
+                        {c.minPrice ? `, dès ${formatPrice(c.minPrice)}` : ', sur devis'}
+                      </p>
+                      <span className="mt-4 inline-block rounded-full bg-sun px-4 py-2 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">
+                        Les découvrir
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="mt-4 text-xl group-hover:text-pine">{c.name}</h3>
-                  <p className="mt-1 text-stone">
-                    {c.count} {c.slug === 'pieces-detachees' ? 'pièces' : 'modèles'}
-                    {c.minPrice ? `, dès ${formatPrice(c.minPrice)}` : ', sur devis'}
-                  </p>
                 </Link>
               </li>
             ))}
