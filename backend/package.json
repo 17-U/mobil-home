@@ -1,0 +1,29 @@
+{
+  "name": "mobilhome-shop-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API Node.js/Express de la boutique de mobil-homes (catalogue, panier, commandes, admin)",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node scripts/seed.js",
+    "create-admin": "node scripts/create-admin.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "stripe": "^22.6.2",
+    "zod": "^4.6.5"
+  }
+}
