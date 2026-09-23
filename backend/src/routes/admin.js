@@ -86,6 +86,7 @@ router.get('/stats', (req, res) => {
         createdAt: o.created_at,
       })),
     statuses: ORDER_STATUSES,
+    leads: one('SELECT COUNT(*) AS total, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread FROM leads'),
   });
 });
 
@@ -311,6 +312,46 @@ router.get('/orders/:id', (req, res) => {
   const order = getOrderFull(Number(req.params.id));
   if (!order) return res.status(404).json({ error: 'Commande introuvable.' });
   res.json({ order, statuses: ORDER_STATUSES });
+});
+
+/* ---------- Demandes de contact ---------- */
+
+router.get('/leads', (req, res) => {
+  const page = Math.max(Number(req.query.page) || 1, 1);
+  const limit = 25;
+  const total = db.prepare('SELECT COUNT(*) AS n FROM leads').get().n;
+  const unread = db.prepare('SELECT COUNT(*) AS n FROM leads WHERE is_read = 0').get().n;
+  const rows = db
+    .prepare('SELECT * FROM leads ORDER BY id DESC LIMIT @limit OFFSET @offset')
+    .all({ limit, offset: (page - 1) * limit });
+  res.json({
+    items: rows.map((l) => ({
+      id: l.id,
+      name: l.name,
+      phone: l.phone,
+      email: l.email,
+      message: l.message,
+      isRead: !!l.is_read,
+      createdAt: l.created_at,
+    })),
+    total,
+    unread,
+    page,
+    pages: Math.max(Math.ceil(total / limit), 1),
+  });
+});
+
+router.patch('/leads/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const { isRead } = z.object({ isRead: z.boolean() }).parse(req.body);
+  const info = db.prepare('UPDATE leads SET is_read = ? WHERE id = ?').run(isRead ? 1 : 0, id);
+  if (!info.changes) return res.status(404).json({ error: 'Demande introuvable.' });
+  res.json({ ok: true });
+});
+
+router.delete('/leads/:id', (req, res) => {
+  db.prepare('DELETE FROM leads WHERE id = ?').run(Number(req.params.id));
+  res.json({ deleted: true });
 });
 
 router.patch('/orders/:id', (req, res) => {

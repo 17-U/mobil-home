@@ -46,11 +46,12 @@ export default function Dashboard() {
     <div className="space-y-8">
       <h1 className="text-3xl">Tableau de bord</h1>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <Kpi label="À traiter" value={s.orders.toProcess || 0} hint="commandes et devis reçus" href="/admin/commandes?status=nouvelle" />
         <Kpi label="Chiffre d’affaires engagé" value={formatPrice(s.orders.revenue)} hint={`${formatPrice(s.orders.paid)} d’acomptes encaissés`} />
         <Kpi label="Commandes" value={s.orders.total || 0} hint={`dont ${s.orders.quotes || 0} demandes de devis`} href="/admin/commandes" />
         <Kpi label="Produits en ligne" value={s.products.published || 0} hint={`${s.products.reserved || 0} réservés sur ${s.products.total}`} href="/admin/produits" />
+        <Kpi label="Demandes de contact" value={s.leads.unread || 0} hint={`${s.leads.total || 0} au total`} href="/admin/demandes" />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">

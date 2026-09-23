@@ -1,7 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
+import ContactCard from '@/components/ContactCard';
+import SocialLinks from '@/components/SocialLinks';
+import SafeImage from '@/components/SafeImage';
+import HeroImage from '@/components/HeroImage';
 import { formatPrice, priceLabel, formatSurface } from '@/lib/format';
 
 // Rendu à la demande (les données API restent mises en cache 30 à 300 s)
@@ -21,18 +24,30 @@ export default async function HomePage() {
     categories.map((c) => api(`/products?category=${c.slug}&limit=1&featured=${c.slug === 'pieces-detachees' ? 0 : 1}`).then((r) => r.items[0]))
   );
 
-  const heroProduct = featured.items.find((p) => p.condition === 'neuf') || newModels.items[0];
+  const heroImages = [
+    ...featured.items.filter((p) => p.condition === 'neuf').map((p) => p.image),
+    ...newModels.items.map((p) => p.image),
+  ].filter(Boolean);
   const featuredUsed = featured.items.filter((p) => p.condition === 'occasion').slice(0, 3);
+  const featuredPieces = featured.items.filter((p) => p.condition === 'piece').slice(0, 3);
+  const piecesCategory = categories.find((c) => c.slug === 'pieces-detachees');
   const deposit = Math.round(settings.depositRate * 100);
   const toScale = newModels.items.filter((p) => p.lengthM && p.widthM);
+
+  // Réservoir de photos pour les bandeaux plein cadre (pas de rapport strict avec la section affichée)
+  const photoPool = [...featured.items, ...newModels.items].map((p) => p.image).filter(Boolean);
+  const poolImages = (offset, count = 3) =>
+    photoPool.length ? Array.from({ length: count }, (_, i) => photoPool[(offset + i) % photoPool.length]) : [];
+  const piecesCoverIndex = categories.findIndex((c) => c.slug === 'pieces-detachees');
+  const piecesImages = [...featuredPieces.map((p) => p.image), covers[piecesCoverIndex]?.image].filter(Boolean);
 
   return (
     <>
       {/* ---------- Hero ---------- */}
-      <section className="relative -mt-[5.5rem] flex min-h-[640px] items-end overflow-hidden pt-[5.5rem] sm:min-h-[720px]">
-        {heroProduct && (
-          <Image
-            src={heroProduct.image}
+      <section className="relative flex min-h-[560px] items-center overflow-hidden bg-pine sm:min-h-[640px]">
+        {heroImages.length > 0 && (
+          <HeroImage
+            srcs={heroImages}
             alt=""
             fill
             priority
@@ -40,28 +55,48 @@ export default async function HomePage() {
             className="object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/40 to-ink/15" />
 
         <div className="container-page relative py-16 text-white">
           <h1 className="max-w-3xl text-[2.3rem] uppercase leading-[1.05] sm:text-5xl xl:text-[3.6rem]">
-            Votre mobil-home, livré, installé et raccordé.
+            Vente mobil-homes neufs et d’occasion
           </h1>
           <p className="mt-6 max-w-[34rem] text-lg font-semibold text-sun">
             Sur nos modèles neufs, le prix affiché comprend le transport jusqu’à 100 km, l’installation, les raccordements
             et une terrasse de 2,5 × 4,5 m. Réservez en ligne avec un acompte de {deposit} %.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/categorie/mobil-homes-neufs" className="btn-primary">Voir les modèles neufs</Link>
+            <Link href="/categorie/mobil-homes-neufs" className="btn-primary">Découvrir nos mobil-homes</Link>
             <Link href="/categorie/mobil-homes-occasion" className="btn bg-white/10 text-white hover:bg-white/20">
               Voir les occasions
             </Link>
           </div>
-          {heroProduct && (
-            <Link href={`/produit/${heroProduct.slug}`} className="mt-10 flex max-w-sm items-center justify-between gap-4 border-t border-white/20 pt-4 text-sm hover:text-sun">
-              <span className="font-semibold">{heroProduct.title}, neuf</span>
-              <span className="text-white/70">{priceLabel(heroProduct)}</span>
-            </Link>
-          )}
+          <SocialLinks social={settings.shop.social} className="mt-10" />
+        </div>
+      </section>
+
+      {/* ---------- Formulaire de contact, à cheval sur le hero ---------- */}
+      <div id="contact" className="container-page relative z-10 -mt-20 flex scroll-mt-24 justify-center sm:-mt-24 sm:justify-end">
+        <ContactCard className="w-full max-w-sm" />
+      </div>
+
+      {/* ---------- Présentation, bandeau photo avec carte qui déborde ---------- */}
+      <section className="relative mt-8">
+        <div className="relative h-[280px] overflow-hidden bg-pine sm:h-[360px]">
+          <HeroImage srcs={poolImages(0)} alt="" fill sizes="100vw" className="object-cover" />
+          <div className="absolute inset-0 bg-ink/40" />
+        </div>
+        <div className="container-page relative -mt-20 sm:-mt-28">
+          <div className="max-w-2xl rounded-md bg-white p-8 shadow-2xl sm:p-10">
+            <h2 className="text-3xl sm:text-4xl">Mobil-Home Store, votre spécialiste vente et installation</h2>
+            <p className="mt-4 text-lg text-stone">
+              Nous vendons des mobil-homes neufs et d’occasion, avec une garantie de 10 ans sur les modèles neufs.
+              La livraison, l’installation et les raccordements sont compris dans le prix affiché jusqu’à 100 km ; au-delà,
+              le transport est chiffré sur devis. Retrouvez aussi nos pièces détachées pour l’entretien et la rénovation de
+              votre mobil-home.
+            </p>
+            <a href="#contact" className="btn-primary mt-6 inline-flex">Nous contacter</a>
+          </div>
         </div>
       </section>
 
@@ -75,7 +110,7 @@ export default async function HomePage() {
                 <Link href={`/categorie/${c.slug}`} className="group block">
                   <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
                     {covers[i]?.image && (
-                      <Image
+                      <SafeImage
                         src={covers[i].image}
                         alt=""
                         fill
@@ -90,7 +125,13 @@ export default async function HomePage() {
                         {c.count} {c.slug === 'pieces-detachees' ? 'pièces' : 'modèles'}
                         {c.minPrice ? `, dès ${formatPrice(c.minPrice)}` : ', sur devis'}
                       </p>
-                      <span className="mt-4 inline-block rounded-full bg-sun px-4 py-2 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">
+                      {c.description && (
+                        <p className="mt-1 line-clamp-2 text-sm text-white/60">{c.description}</p>
+                      )}
+                    </div>
+                    {/* Le bouton descend depuis le haut de la carte et s'arrête au milieu, au survol */}
+                    <div className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-[260%] justify-center opacity-0 transition-all duration-500 ease-out group-hover:-translate-y-1/2 group-hover:opacity-100">
+                      <span className="rounded-full bg-sun px-5 py-2.5 text-sm font-semibold text-white shadow-lg">
                         Les découvrir
                       </span>
                     </div>
@@ -99,6 +140,36 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ---------- Terrasse sur-mesure et couverture ---------- */}
+      <section className="relative">
+        <div className="grid sm:grid-cols-2">
+          {[
+            {
+              title: 'Terrasse en bois sur-mesure',
+              text: 'Vous souhaitez une terrasse sur-mesure pour profiter de votre mobil-home toute l’année ? Nous réalisons votre terrasse en bois, adaptée à votre emplacement et à vos envies.',
+              images: poolImages(3),
+            },
+            {
+              title: 'Couverture de terrasse',
+              text: 'Envie de profiter de votre terrasse toute l’année ? Couverte, semi-couverte ou fermée : nous vous accompagnons dans la réalisation d’une couverture sur-mesure.',
+              images: poolImages(6),
+            },
+          ].map((b) => (
+            <div key={b.title} className="relative flex min-h-[380px] items-end overflow-hidden bg-pine">
+              <HeroImage srcs={b.images} alt="" fill sizes="50vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/40 to-ink/10" />
+              <div className="relative p-8 text-white sm:p-10">
+                <h2 className="text-2xl sm:text-3xl">{b.title}</h2>
+                <p className="mt-3 max-w-md text-white/85">{b.text}</p>
+                <a href="#contact" className="btn mt-5 inline-flex bg-white text-ink hover:bg-sun hover:text-white">
+                  Nous contacter
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -156,6 +227,45 @@ export default async function HomePage() {
           </ul>
         </section>
       )}
+
+      {/* ---------- Pièces détachées ---------- */}
+      {piecesCategory && (
+        <section className="relative overflow-hidden bg-sun text-white">
+          <div className="container-page grid gap-10 py-16 lg:grid-cols-[1fr_1fr] lg:items-center">
+            <div>
+              <h2 className="text-3xl sm:text-4xl">
+                Magasin de pièces détachées pour mobil-homes
+              </h2>
+              <p className="mt-4 max-w-xl text-lg text-white/90">
+                {piecesCategory.description ||
+                  `${piecesCategory.count} pièces en catalogue pour l’entretien, la réparation et la rénovation de votre mobil-home.`}
+              </p>
+              <Link href="/categorie/pieces-detachees" className="btn mt-6 inline-flex bg-pine text-white hover:bg-pine-dark">
+                Découvrir nos pièces détachées
+              </Link>
+            </div>
+            {piecesImages.length > 0 && (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-white/10">
+                <HeroImage srcs={piecesImages} alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-contain p-8" />
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ---------- Financement ---------- */}
+      <section className="relative flex min-h-[320px] items-center overflow-hidden bg-pine">
+        <HeroImage srcs={poolImages(9)} alt="" fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-ink/70" />
+        <div className="container-page relative py-16 text-white">
+          <h2 className="max-w-xl text-3xl sm:text-4xl">Un projet à concrétiser ? Parlons financement</h2>
+          <p className="mt-4 max-w-xl text-lg text-white/85">
+            Vous avez besoin d’un financement pour votre mobil-home ? Contactez-nous, nous étudions avec vous la solution
+            la mieux adaptée à votre projet.
+          </p>
+          <a href="#contact" className="btn-primary mt-6 inline-flex">Nous contacter</a>
+        </div>
+      </section>
 
       {/* ---------- Déroulé d'un achat ---------- */}
       <section className="container-page py-20">

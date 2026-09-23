@@ -24,6 +24,12 @@ const config = {
     name: process.env.SHOP_NAME || 'Mobil-Home Store',
     phone: process.env.SHOP_PHONE || '',
     email: process.env.SHOP_EMAIL || '',
+    whatsapp: process.env.SHOP_WHATSAPP || '',
+    social: {
+      facebook: process.env.SHOP_FACEBOOK || '',
+      instagram: process.env.SHOP_INSTAGRAM || '',
+      linkedin: process.env.SHOP_LINKEDIN || '',
+    },
   },
 };
 

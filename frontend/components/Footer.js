@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { SITE_NAME } from '@/lib/format';
+import SocialLinks from './SocialLinks';
 
 export default async function Footer() {
   let settings = null;
@@ -31,6 +32,7 @@ export default async function Footer() {
               )}
             </p>
           )}
+          <SocialLinks social={shop?.social} className="mt-5" />
         </div>
         <div>
           <p className="font-bold">Catalogue</p>

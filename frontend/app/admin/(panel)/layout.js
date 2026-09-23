@@ -10,6 +10,7 @@ const NAV = [
   { href: '/admin', label: 'Tableau de bord', exact: true },
   { href: '/admin/produits', label: 'Produits' },
   { href: '/admin/commandes', label: 'Commandes' },
+  { href: '/admin/demandes', label: 'Demandes' },
 ];
 
 export default function PanelLayout({ children }) {

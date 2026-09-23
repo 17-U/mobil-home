@@ -1,6 +1,8 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const { z } = require('zod');
 const config = require('../config');
+const db = require('../db');
 const products = require('../lib/products');
 const { checkCart } = require('../lib/orders');
 const { productOut } = require('../lib/serialize');
@@ -70,6 +72,23 @@ router.post('/cart/check', (req, res) => {
     hasQuoteItems: cart.hasQuoteItems,
     hasPricedItems: cart.hasPricedItems,
   });
+});
+
+const contactSchema = z
+  .object({
+    name: z.string().trim().min(1, 'Nom requis').max(120),
+    phone: z.string().trim().max(30).optional().default(''),
+    email: z.string().trim().max(160).optional().default(''),
+    message: z.string().trim().max(2000).optional().default(''),
+  })
+  .refine((d) => d.phone || d.email, { message: 'Indiquez un téléphone ou un e-mail.', path: ['phone'] });
+
+const contactLimiter = rateLimit({ windowMs: 10 * 60 * 1000, limit: 10, standardHeaders: true, legacyHeaders: false });
+
+router.post('/contact', contactLimiter, (req, res) => {
+  const d = contactSchema.parse(req.body);
+  db.prepare('INSERT INTO leads (name, phone, email, message) VALUES (@name, @phone, @email, @message)').run(d);
+  res.status(201).json({ ok: true });
 });
 
 module.exports = router;

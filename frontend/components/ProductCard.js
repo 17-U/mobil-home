@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import Footprint from './Footprint';
+import SafeImage from './SafeImage';
 import { priceLabel, roomsLabel, locationLabel } from '@/lib/format';
 
 export default function ProductCard({ product: p, priority = false }) {
@@ -11,7 +11,7 @@ export default function ProductCard({ product: p, priority = false }) {
     <Link href={`/produit/${p.slug}`} className="group block focus-visible:outline-offset-4">
       <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-mist">
         {p.image ? (
-          <Image
+          <SafeImage
             src={p.image}
             alt={p.title}
             fill
