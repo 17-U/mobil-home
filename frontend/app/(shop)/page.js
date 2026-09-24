@@ -5,6 +5,7 @@ import ContactCard from '@/components/ContactCard';
 import SocialLinks from '@/components/SocialLinks';
 import SafeImage from '@/components/SafeImage';
 import HeroImage from '@/components/HeroImage';
+import Reveal from '@/components/Reveal';
 import { formatPrice, priceLabel, formatSurface } from '@/lib/format';
 
 // Rendu à la demande (les données API restent mises en cache 30 à 300 s)
@@ -58,26 +59,30 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/40 to-ink/15" />
 
         <div className="container-page relative py-16 text-white">
-          <h1 className="max-w-3xl text-[2.3rem] uppercase leading-[1.05] sm:text-5xl xl:text-[3.6rem]">
+          <Reveal as="h1" className="max-w-3xl text-[2.3rem] uppercase leading-[1.05] sm:text-5xl xl:text-[3.6rem]">
             Vente mobil-homes neufs et d’occasion
-          </h1>
-          <p className="mt-6 max-w-[34rem] text-lg font-semibold text-sun">
+          </Reveal>
+          <Reveal as="p" delay={120} className="mt-6 max-w-[34rem] text-lg font-semibold text-sun">
             Sur nos modèles neufs, le prix affiché comprend le transport jusqu’à 100 km, l’installation, les raccordements
             et une terrasse de 2,5 × 4,5 m. Réservez en ligne avec un acompte de {deposit} %.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          </Reveal>
+          <Reveal delay={240} className="mt-8 flex flex-wrap gap-3">
             <Link href="/categorie/mobil-homes-neufs" className="btn-primary">Découvrir nos mobil-homes</Link>
             <Link href="/categorie/mobil-homes-occasion" className="btn bg-white/10 text-white hover:bg-white/20">
               Voir les occasions
             </Link>
-          </div>
-          <SocialLinks social={settings.shop.social} className="mt-10" />
+          </Reveal>
+          <Reveal delay={360}>
+            <SocialLinks social={settings.shop.social} className="mt-10" />
+          </Reveal>
         </div>
       </section>
 
       {/* ---------- Formulaire de contact, à cheval sur le hero ---------- */}
       <div id="contact" className="container-page relative z-10 -mt-20 flex scroll-mt-24 justify-center sm:-mt-24 sm:justify-end">
-        <ContactCard className="w-full max-w-sm" />
+        <Reveal delay={200} className="w-full max-w-sm">
+          <ContactCard />
+        </Reveal>
       </div>
 
       {/* ---------- Présentation, bandeau photo avec carte qui déborde ---------- */}
@@ -87,7 +92,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-ink/40" />
         </div>
         <div className="container-page relative -mt-20 sm:-mt-28">
-          <div className="max-w-2xl rounded-md bg-white p-8 shadow-2xl sm:p-10">
+          <Reveal className="max-w-2xl rounded-md bg-white p-8 shadow-2xl sm:p-10">
             <h2 className="text-3xl sm:text-4xl">Mobil-Home Store, votre spécialiste vente et installation</h2>
             <p className="mt-4 text-lg text-stone">
               Nous vendons des mobil-homes neufs et d’occasion, avec une garantie de 10 ans sur les modèles neufs.
@@ -96,17 +101,17 @@ export default async function HomePage() {
               votre mobil-home.
             </p>
             <a href="#contact" className="btn-primary mt-6 inline-flex">Nous contacter</a>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ---------- Catégories ---------- */}
       <section className="bg-pine py-16 text-white">
         <div className="container-page">
-          <h2 className="text-3xl uppercase sm:text-4xl">Que cherchez-vous ?</h2>
+          <Reveal as="h2" className="text-3xl uppercase sm:text-4xl">Que cherchez-vous ?</Reveal>
           <ul className="mt-10 grid gap-8 md:grid-cols-3">
             {categories.map((c, i) => (
-              <li key={c.slug}>
+              <Reveal as="li" key={c.slug} delay={i * 120}>
                 <Link href={`/categorie/${c.slug}`} className="group block">
                   <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
                     {covers[i]?.image && (
@@ -137,7 +142,7 @@ export default async function HomePage() {
                     </div>
                   </div>
                 </Link>
-              </li>
+              </Reveal>
             ))}
           </ul>
         </div>
@@ -157,17 +162,17 @@ export default async function HomePage() {
               text: 'Envie de profiter de votre terrasse toute l’année ? Couverte, semi-couverte ou fermée : nous vous accompagnons dans la réalisation d’une couverture sur-mesure.',
               images: poolImages(6),
             },
-          ].map((b) => (
+          ].map((b, i) => (
             <div key={b.title} className="relative flex min-h-[380px] items-end overflow-hidden bg-pine">
               <HeroImage srcs={b.images} alt="" fill sizes="50vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/40 to-ink/10" />
-              <div className="relative p-8 text-white sm:p-10">
+              <Reveal delay={i * 150} className="relative p-8 text-white sm:p-10">
                 <h2 className="text-2xl sm:text-3xl">{b.title}</h2>
                 <p className="mt-3 max-w-md text-white/85">{b.text}</p>
                 <a href="#contact" className="btn mt-5 inline-flex bg-white text-ink hover:bg-sun hover:text-white">
                   Nous contacter
                 </a>
-              </div>
+              </Reveal>
             </div>
           ))}
         </div>
@@ -176,15 +181,15 @@ export default async function HomePage() {
       {/* ---------- Les modèles neufs à l'échelle ---------- */}
       {toScale.length > 0 && (
         <section className="container-page py-20">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl">
             <h2 className="text-3xl sm:text-4xl">Les modèles neufs, à la même échelle</h2>
             <p className="mt-4 text-lg text-stone">
               Chaque rectangle est le plan au sol du mobil-home. Comparez les longueurs d’un coup d’œil avant de regarder
               les photos.
             </p>
-          </div>
+          </Reveal>
 
-          <ol className="mt-10 divide-y divide-line border-y border-line">
+          <Reveal as="ol" delay={150} className="mt-10 divide-y divide-line border-y border-line">
             {toScale.map((p) => (
               <li key={p.id}>
                 <Link
@@ -204,7 +209,7 @@ export default async function HomePage() {
                 </Link>
               </li>
             ))}
-          </ol>
+          </Reveal>
           <p className="mt-3 text-sm text-stone">Largeur totale de l’échelle : 13 m.</p>
         </section>
       )}
@@ -212,17 +217,17 @@ export default async function HomePage() {
       {/* ---------- Occasions ---------- */}
       {featuredUsed.length > 0 && (
         <section className="container-page py-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="text-3xl sm:text-4xl">Occasions à visiter</h2>
             <Link href="/categorie/mobil-homes-occasion" className="font-semibold text-pine underline underline-offset-4">
               Toutes les occasions
             </Link>
-          </div>
+          </Reveal>
           <ul className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredUsed.map((p) => (
-              <li key={p.id}>
+            {featuredUsed.map((p, i) => (
+              <Reveal as="li" key={p.id} delay={i * 120}>
                 <ProductCard product={p} />
-              </li>
+              </Reveal>
             ))}
           </ul>
         </section>
@@ -232,7 +237,7 @@ export default async function HomePage() {
       {piecesCategory && (
         <section className="relative overflow-hidden bg-sun text-white">
           <div className="container-page grid gap-10 py-16 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <div>
+            <Reveal>
               <h2 className="text-3xl sm:text-4xl">
                 Magasin de pièces détachées pour mobil-homes
               </h2>
@@ -243,11 +248,11 @@ export default async function HomePage() {
               <Link href="/categorie/pieces-detachees" className="btn mt-6 inline-flex bg-pine text-white hover:bg-pine-dark">
                 Découvrir nos pièces détachées
               </Link>
-            </div>
+            </Reveal>
             {piecesImages.length > 0 && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-white/10">
+              <Reveal delay={150} className="relative aspect-[4/3] overflow-hidden rounded-md bg-white/10">
                 <HeroImage srcs={piecesImages} alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-contain p-8" />
-              </div>
+              </Reveal>
             )}
           </div>
         </section>
@@ -257,30 +262,30 @@ export default async function HomePage() {
       <section className="relative flex min-h-[320px] items-center overflow-hidden bg-pine">
         <HeroImage srcs={poolImages(9)} alt="" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-ink/70" />
-        <div className="container-page relative py-16 text-white">
+        <Reveal className="container-page relative py-16 text-white">
           <h2 className="max-w-xl text-3xl sm:text-4xl">Un projet à concrétiser ? Parlons financement</h2>
           <p className="mt-4 max-w-xl text-lg text-white/85">
             Vous avez besoin d’un financement pour votre mobil-home ? Contactez-nous, nous étudions avec vous la solution
             la mieux adaptée à votre projet.
           </p>
           <a href="#contact" className="btn-primary mt-6 inline-flex">Nous contacter</a>
-        </div>
+        </Reveal>
       </section>
 
       {/* ---------- Déroulé d'un achat ---------- */}
       <section className="container-page py-20">
-        <h2 className="text-3xl sm:text-4xl">Comment se passe l’achat</h2>
+        <Reveal as="h2" className="text-3xl sm:text-4xl">Comment se passe l’achat</Reveal>
         <ol className="mt-10 grid gap-10 md:grid-cols-3">
           {[
             ['Vous réservez en ligne', `Ajoutez le mobil-home au panier et versez un acompte de ${deposit} %. Un modèle d’occasion est retiré de la vente dès la commande.`],
             ['Nous vous rappelons', 'Nous confirmons avec vous l’emplacement, les accès pour le transport et la date d’installation. Le solde est réglé avant la livraison.'],
             ['Livraison et installation', 'Le mobil-home est livré, calé, raccordé et sa terrasse posée. Au-delà de 100 km, le transport est chiffré sur devis.'],
           ].map(([title, text], i) => (
-            <li key={title} className="border-t-4 border-sun pt-5">
+            <Reveal as="li" key={title} delay={i * 150} className="border-t-4 border-sun pt-5">
               <p className="display text-4xl text-pine">{i + 1}</p>
               <h3 className="mt-3 text-xl">{title}</h3>
               <p className="mt-2 text-stone">{text}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </section>
