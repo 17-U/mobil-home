@@ -26,6 +26,7 @@ export default async function HomePage() {
   );
 
   const heroImages = [
+    '/hero.jpg',
     ...featured.items.filter((p) => p.condition === 'neuf').map((p) => p.image),
     ...newModels.items.map((p) => p.image),
   ].filter(Boolean);

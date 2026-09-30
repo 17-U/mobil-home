@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { SITE_NAME } from '@/lib/format';
+import { SITE_NAME, SITE_CREATION_YEAR } from '@/lib/format';
 import SocialLinks from './SocialLinks';
 
 export default async function Footer() {
@@ -52,7 +52,8 @@ export default async function Footer() {
       </div>
       <div className="border-t border-white/15">
         <p className="container-page py-5 text-sm text-white/60">
-          © {new Date().getFullYear()} {SITE_NAME}. Prix TTC.
+          © {SITE_CREATION_YEAR}
+          {new Date().getFullYear() > SITE_CREATION_YEAR ? `–${new Date().getFullYear()}` : ''} {SITE_NAME}. Prix TTC.
         </p>
       </div>
     </footer>

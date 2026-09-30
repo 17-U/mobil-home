@@ -64,3 +64,4 @@ export const PAYMENT_LABELS = {
 };
 
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Mobil-Home Store';
+export const SITE_CREATION_YEAR = 2015;
