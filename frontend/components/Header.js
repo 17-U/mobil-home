@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useCart, cartCount, useHydrated } from '@/lib/cart';
@@ -35,8 +36,8 @@ export default function Header({ phone }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
       <div className="container-page flex h-20 items-center justify-between gap-6">
-        <Link href="/" className="display whitespace-nowrap text-lg text-pine sm:text-xl">
-          {SITE_NAME}
+        <Link href="/" className="shrink-0">
+          <Image src="/logo-header.png" alt={SITE_NAME} width={1754} height={174} priority className="h-7 w-auto sm:h-9" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Navigation principale">
