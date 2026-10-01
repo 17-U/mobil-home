@@ -23,8 +23,6 @@ const nextConfig = {
       }))
     ),
     formats: ['image/avif', 'image/webp'],
-    // Les photos viennent de sites tiers et ont parfois des temps de réponse très lents ; on évite le proxy d’optimisation Next pour qu’elles s’affichent.
-    unoptimized: true,
     dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
   },
 };

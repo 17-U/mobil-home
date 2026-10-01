@@ -65,3 +65,4 @@ export const PAYMENT_LABELS = {
 
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Mobile Home Concept';
 export const SITE_CREATION_YEAR = 2015;
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');

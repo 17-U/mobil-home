@@ -5,7 +5,7 @@ import Gallery from '@/components/Gallery';
 import AddToCart from '@/components/AddToCart';
 import Footprint from '@/components/Footprint';
 import ProductCard from '@/components/ProductCard';
-import { priceLabel, formatMeters, formatSurface, locationLabel, formatPrice } from '@/lib/format';
+import { priceLabel, formatMeters, formatSurface, locationLabel, formatPrice, SITE_URL } from '@/lib/format';
 
 async function getProduct(slug) {
   try {
@@ -24,6 +24,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `${p.title}${p.condition === 'neuf' ? ' neuf' : p.condition === 'occasion' ? ' d’occasion' : ''}`,
     description: [p.statusLabel, priceLabel(p)].filter(Boolean).join('. '),
+    alternates: { canonical: `/produit/${slug}` },
     openGraph: { images: p.image ? [p.image] : [] },
   };
 }
@@ -67,10 +68,20 @@ export default async function ProductPage({ params }) {
           availability: p.soldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
         },
   };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: p.category.name, item: `${SITE_URL}/categorie/${p.category.slug}` },
+      { '@type': 'ListItem', position: 3, name: p.title, item: `${SITE_URL}/produit/${slug}` },
+    ],
+  };
 
   return (
     <div className="container-page pt-6">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-stone">
         <Link href="/" className="hover:text-pine">Accueil</Link>
         <span className="mx-2">/</span>
