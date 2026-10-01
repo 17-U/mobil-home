@@ -16,7 +16,7 @@ export default async function sitemap() {
     getAllProducts(),
   ]);
 
-  const staticRoutes = ['', '/catalogue', '/conditions', '/suivi'].map((path) => ({
+  const staticRoutes = ['', '/catalogue', '/conditions', '/mentions-legales', '/suivi'].map((path) => ({
     url: `${SITE_URL}${path}`,
     changeFrequency: path === '' ? 'daily' : 'weekly',
     priority: path === '' ? 1 : 0.6,

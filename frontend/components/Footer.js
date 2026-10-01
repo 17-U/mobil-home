@@ -47,6 +47,7 @@ export default async function Footer() {
           <ul className="mt-3 space-y-2 text-white/85">
             <li><Link className="hover:text-sun" href="/suivi">Suivre une commande</Link></li>
             <li><Link className="hover:text-sun" href="/conditions">Conditions de vente</Link></li>
+            <li><Link className="hover:text-sun" href="/mentions-legales">Mentions légales</Link></li>
           </ul>
         </div>
       </div>

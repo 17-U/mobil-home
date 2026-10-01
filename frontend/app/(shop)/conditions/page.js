@@ -13,11 +13,25 @@ export default async function TermsPage() {
     ['Mobil-homes neufs', 'Les mobil-homes neufs bénéficient de la garantie constructeur de 10 ans. Les modèles « disponibles à la commande » sont fabriqués sur demande ; le délai vous est communiqué à la confirmation.'],
     ['Pièces détachées', 'Les pièces détachées sont vendues sur devis gratuit. La demande envoyée en ligne ne vous engage pas.'],
     ['Annulation', 'Toute demande d’annulation se fait par écrit. Les conditions de remboursement de l’acompte vous sont précisées lors de la confirmation de commande.'],
+    [
+      'Droit de rétractation',
+      'Conformément à l’article L221-18 du Code de la consommation, vous disposez d’un délai de 14 jours à compter de la commande pour exercer votre droit de rétractation, sans avoir à justifier de motif. Ce délai peut toutefois ne pas s’appliquer aux mobil-homes neufs fabriqués selon vos spécifications ni aux occasions, vendues en l’état en tant qu’exemplaires uniques, conformément à l’article L221-28 du Code de la consommation (point à faire valider juridiquement avant mise en ligne définitive).',
+    ],
+    [
+      'Médiation de la consommation',
+      'En cas de litige non résolu directement avec notre service client, vous pouvez recourir gratuitement à un médiateur de la consommation (coordonnées à compléter).',
+    ],
+    [
+      'Données personnelles',
+      'Le traitement de vos données personnelles est détaillé dans nos mentions légales.',
+    ],
   ];
   return (
     <div className="container-page max-w-3xl py-10 lg:py-14">
       <h1 className="text-4xl sm:text-5xl">Conditions de vente</h1>
-      <p className="mt-4 text-stone">Texte type à faire valider et compléter (mentions légales, médiation, rétractation) avant la mise en ligne.</p>
+      <p className="mt-4 rounded-md bg-sun-soft px-4 py-3 text-sm">
+        Les clauses relatives à la rétractation et à la médiation sont en cours de finalisation juridique.
+      </p>
       <div className="mt-10 space-y-8">
         {sections.map(([t, p]) => (
           <section key={t}>
