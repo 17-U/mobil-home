@@ -93,8 +93,8 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-ink/40" />
         </div>
         <div className="container-page relative -mt-20 sm:-mt-28">
-          <Reveal className="max-w-2xl rounded-md bg-white p-8 shadow-2xl sm:p-10">
-            <h2 className="text-3xl sm:text-4xl">Mobil-Home Store, votre spécialiste vente et installation</h2>
+          <Reveal direction="left" className="max-w-2xl rounded-md bg-white p-8 shadow-2xl sm:p-10">
+            <h2 className="text-3xl sm:text-4xl">Mobile Home Concept, votre spécialiste vente et installation</h2>
             <p className="mt-4 text-lg text-stone">
               Nous vendons des mobil-homes neufs et d’occasion, avec une garantie de 10 ans sur les modèles neufs.
               La livraison, l’installation et les raccordements sont compris dans le prix affiché jusqu’à 100 km ; au-delà,
@@ -109,10 +109,10 @@ export default async function HomePage() {
       {/* ---------- Catégories ---------- */}
       <section className="bg-pine py-16 text-white">
         <div className="container-page">
-          <Reveal as="h2" className="text-3xl uppercase sm:text-4xl">Que cherchez-vous ?</Reveal>
+          <Reveal as="h2" direction="right" className="text-3xl uppercase sm:text-4xl">Que cherchez-vous ?</Reveal>
           <ul className="mt-10 grid gap-8 md:grid-cols-3">
             {categories.map((c, i) => (
-              <Reveal as="li" key={c.slug} delay={i * 120}>
+              <Reveal as="li" key={c.slug} direction="right" delay={i * 120}>
                 <Link href={`/categorie/${c.slug}`} className="group block">
                   <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
                     {covers[i]?.image && (

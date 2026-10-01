@@ -112,34 +112,55 @@ export default function Header({ phone }) {
           </Link>
           <button
             type="button"
-            className="rounded-full bg-mist px-3 py-2.5 font-semibold text-ink md:hidden"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full bg-mist md:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="menu-mobile"
+            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
-            Menu
+            <span className="relative block h-4 w-5">
+              <span
+                className={`absolute left-0 top-0 block h-[2px] w-5 rounded-full bg-ink transition-all duration-300 ${
+                  open ? 'top-1/2 -translate-y-1/2 rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-1/2 block h-[2px] w-5 -translate-y-1/2 rounded-full bg-ink transition-opacity duration-200 ${
+                  open ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`absolute bottom-0 left-0 block h-[2px] w-5 rounded-full bg-ink transition-all duration-300 ${
+                  open ? 'bottom-1/2 translate-y-1/2 -rotate-45' : ''
+                }`}
+              />
+            </span>
           </button>
         </div>
       </div>
 
-      {open && (
-        <nav id="menu-mobile" className="border-t border-line bg-white md:hidden" aria-label="Navigation mobile">
-          <ul className="container-page py-2">
-            {NAV.flatMap((n) => (n.items ? n.items : [n])).map((n) => (
-              <li key={n.href} className="border-b border-line last:border-0">
-                <Link href={n.href} className="block py-3.5 text-lg font-medium text-ink hover:text-sun">
-                  {n.label}
-                </Link>
-              </li>
-            ))}
-            {phone && (
-              <li className="py-3.5">
-                <a href={`tel:${phone.replace(/\s/g, '')}`} className="font-semibold text-pine">{phone}</a>
-              </li>
-            )}
-          </ul>
-        </nav>
-      )}
+      <nav
+        id="menu-mobile"
+        className={`grid overflow-hidden bg-white transition-all duration-300 ease-out md:hidden ${
+          open ? 'grid-rows-[1fr] border-t border-line opacity-100' : 'grid-rows-[0fr] border-t-0 opacity-0'
+        }`}
+        aria-label="Navigation mobile"
+      >
+        <ul className="container-page min-h-0 overflow-hidden py-2">
+          {NAV.flatMap((n) => (n.items ? n.items : [n])).map((n) => (
+            <li key={n.href} className="border-b border-line last:border-0">
+              <Link href={n.href} className="block py-3.5 text-lg font-medium text-ink hover:text-sun">
+                {n.label}
+              </Link>
+            </li>
+          ))}
+          {phone && (
+            <li className="py-3.5">
+              <a href={`tel:${phone.replace(/\s/g, '')}`} className="font-semibold text-pine">{phone}</a>
+            </li>
+          )}
+        </ul>
+      </nav>
     </header>
   );
 }

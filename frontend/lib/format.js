@@ -63,5 +63,5 @@ export const PAYMENT_LABELS = {
   aucun: 'Demande de devis',
 };
 
-export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Mobil-Home Store';
+export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Mobile Home Concept';
 export const SITE_CREATION_YEAR = 2015;

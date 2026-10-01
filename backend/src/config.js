@@ -21,7 +21,7 @@ const config = {
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
   },
   shop: {
-    name: process.env.SHOP_NAME || 'Mobil-Home Store',
+    name: process.env.SHOP_NAME || 'Mobile Home Concept',
     phone: process.env.SHOP_PHONE || '',
     email: process.env.SHOP_EMAIL || '',
     whatsapp: process.env.SHOP_WHATSAPP || '',
