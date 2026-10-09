@@ -26,7 +26,7 @@ export default async function HomePage() {
   );
 
   const heroImages = [
-    '/hero.jpg',
+    'https://www.mobilhomeconcept.com/wp-content/uploads/2026/06/Mobil-home-neuf-OHara-1175-du-cote-de-la-cote-dopale-sejour.jpg',
     ...featured.items.filter((p) => p.condition === 'neuf').map((p) => p.image),
     ...newModels.items.map((p) => p.image),
   ].filter(Boolean);
@@ -61,16 +61,19 @@ export default async function HomePage() {
 
         <div className="container-page relative py-16 text-white">
           <Reveal as="h1" className="max-w-3xl text-[2.3rem] uppercase leading-[1.05] sm:text-5xl xl:text-[3.6rem]">
-            Vente mobil-homes neufs et d’occasion
+            Mobil-homes neufs &amp; d’occasion, livrés et installés chez vous
           </Reveal>
           <Reveal as="p" delay={120} className="mt-6 max-w-[34rem] text-lg font-semibold text-sun">
-            Sur nos modèles neufs, le prix affiché comprend le transport jusqu’à 100 km, l’installation, les raccordements
-            et une terrasse de 2,5 × 4,5 m. Réservez en ligne avec un acompte de {deposit} %.
+            Garantie constructeur de 10 ans sur le neuf, modèles d’occasion révisés et garantis 6 mois. Transport,
+            installation et raccordements compris jusqu’à 100 km. Acompte de {deposit} % à la réservation.
           </Reveal>
-          <Reveal delay={240} className="mt-8 flex flex-wrap gap-3">
-            <Link href="/categorie/mobil-homes-neufs" className="btn-primary">Découvrir nos mobil-homes</Link>
-            <Link href="/categorie/mobil-homes-occasion" className="btn bg-white/10 text-white hover:bg-white/20">
-              Voir les occasions
+          <Reveal delay={240} className="mt-8 flex flex-wrap items-center gap-4">
+            <a href="#contact" className="btn-primary">Demander un devis gratuit</a>
+            <Link href="/categorie/mobil-homes-neufs" className="font-semibold text-white underline underline-offset-4 hover:text-sun">
+              Voir le neuf
+            </Link>
+            <Link href="/categorie/mobil-homes-occasion" className="font-semibold text-white underline underline-offset-4 hover:text-sun">
+              Voir l’occasion
             </Link>
           </Reveal>
           <Reveal delay={360}>

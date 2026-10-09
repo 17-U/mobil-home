@@ -34,16 +34,17 @@ export default function ContactCard({ className = '' }) {
 
   return (
     <form onSubmit={onSubmit} className={`rounded-md bg-white p-6 text-ink shadow-2xl ${className}`}>
-      <p className="text-lg font-bold">Besoin d’un renseignement ?</p>
+      <p className="text-lg font-bold">Demandez votre devis gratuit</p>
+      <p className="mt-1 text-sm text-stone">Réponse sous 24 h, sans engagement.</p>
       <div className="mt-4 space-y-3">
         <input name="name" required maxLength={120} placeholder="Nom" className="field" />
         <input name="phone" maxLength={30} placeholder="Téléphone" className="field" />
         <input name="email" type="email" maxLength={160} placeholder="E-mail" className="field" />
-        <textarea name="message" maxLength={2000} placeholder="Message" rows={3} className="field resize-none" />
+        <textarea name="message" maxLength={2000} placeholder="Votre projet (neuf, occasion, emplacement…)" rows={3} className="field resize-none" />
       </div>
       {error && <p className="mt-3 text-sm text-danger">{error}</p>}
       <button type="submit" disabled={status === 'sending'} className="btn-primary mt-4 w-full">
-        {status === 'sending' ? 'Envoi…' : 'Envoyer'}
+        {status === 'sending' ? 'Envoi…' : 'Recevoir mon devis'}
       </button>
     </form>
   );
