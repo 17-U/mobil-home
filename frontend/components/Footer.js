@@ -53,8 +53,7 @@ export default async function Footer() {
       </div>
       <div className="border-t border-white/15">
         <p className="container-page py-5 text-sm text-white/60">
-          © {SITE_CREATION_YEAR}
-          {new Date().getFullYear() > SITE_CREATION_YEAR ? `–${new Date().getFullYear()}` : ''} {SITE_NAME}. Prix TTC.
+          © {SITE_CREATION_YEAR} {SITE_NAME}. Prix TTC.
         </p>
       </div>
     </footer>
