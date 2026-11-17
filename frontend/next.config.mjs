@@ -5,6 +5,8 @@ const allowedImageHosts = new Set([
   'campinglatentation.com',
   'www.mobilhomeconcept.com',
   'mobilhomeconcept.com',
+  'www.lebonmobilhome.fr',
+  'lebonmobilhome.fr',
   apiUrl.hostname,
   'localhost',
   '127.0.0.1',
