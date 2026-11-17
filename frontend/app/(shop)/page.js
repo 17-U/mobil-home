@@ -181,6 +181,25 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ---------- Nos nouveautés ---------- */}
+      {newModels.items.length > 0 && (
+        <section className="container-page py-8">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
+            <h2 className="text-3xl sm:text-4xl">Nos nouveautés</h2>
+            <Link href="/categorie/mobil-homes-neufs" className="font-semibold text-pine underline underline-offset-4">
+              Tous les modèles neufs
+            </Link>
+          </Reveal>
+          <ul className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {newModels.items.slice(0, 8).map((p, i) => (
+              <Reveal as="li" key={p.id} delay={i * 120}>
+                <ProductCard product={p} />
+              </Reveal>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* ---------- Les modèles neufs à l'échelle ---------- */}
       {toScale.length > 0 && (
         <section className="container-page py-20">
