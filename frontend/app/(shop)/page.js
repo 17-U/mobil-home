@@ -26,7 +26,6 @@ export default async function HomePage() {
   );
 
   const heroImages = [
-    'https://www.mobilhomeconcept.com/wp-content/uploads/2026/06/Mobil-home-neuf-OHara-1175-du-cote-de-la-cote-dopale-sejour.jpg',
     ...featured.items.filter((p) => p.condition === 'neuf').map((p) => p.image),
     ...newModels.items.map((p) => p.image),
   ].filter(Boolean);
