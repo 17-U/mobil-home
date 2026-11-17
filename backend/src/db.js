@@ -118,4 +118,9 @@ CREATE TABLE IF NOT EXISTS admins (
 );
 `);
 
+const productColumns = db.prepare('PRAGMA table_info(products)').all().map((c) => c.name);
+if (!productColumns.includes('video_youtube')) {
+  db.exec('ALTER TABLE products ADD COLUMN video_youtube TEXT');
+}
+
 module.exports = db;

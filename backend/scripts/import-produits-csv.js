@@ -105,10 +105,10 @@ const catId = Object.fromEntries(db.prepare('SELECT slug, id FROM categories').a
 const insert = db.prepare(`
   INSERT INTO products (reference, slug, category_id, title, brand, model, year, condition, origin,
     status_label, location, availability, price, price_from, length_m, width_m, surface_m2, bedrooms, sleeps,
-    bathrooms, kitchen, features, price_conditions, description, images, stock, is_published, is_featured)
+    bathrooms, kitchen, features, price_conditions, description, video_youtube, images, stock, is_published, is_featured)
   VALUES (@reference, @slug, @category_id, @title, @brand, @model, @year, @condition, @origin,
     @status_label, @location, @availability, @price, @price_from, @length_m, @width_m, @surface_m2, @bedrooms, @sleeps,
-    @bathrooms, @kitchen, @features, @price_conditions, @description, @images, @stock, 1, 0)
+    @bathrooms, @kitchen, @features, @price_conditions, @description, @video_youtube, @images, @stock, 1, 0)
 `);
 
 let added = 0;
@@ -173,6 +173,7 @@ const run = db.transaction(() => {
       features: JSON.stringify(features),
       price_conditions: null,
       description: cleanDescription(row.description) || null,
+      video_youtube: cleanInline(row.video_youtube) || null,
       images: JSON.stringify(images),
       stock: isNeuf ? null : 1,
     });

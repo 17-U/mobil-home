@@ -31,6 +31,7 @@ function productOut(row) {
     features: parseJson(row.features, []),
     priceConditions: row.price_conditions,
     description: row.description,
+    videoYoutube: row.video_youtube || null,
     images,
     image: images[0] || null,
     stock: row.stock,

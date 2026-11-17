@@ -7,6 +7,12 @@ import Footprint from '@/components/Footprint';
 import ProductCard from '@/components/ProductCard';
 import { priceLabel, formatMeters, formatSurface, locationLabel, formatPrice, SITE_URL } from '@/lib/format';
 
+function youtubeEmbedUrl(url) {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+
 async function getProduct(slug) {
   try {
     return await api(`/products/${encodeURIComponent(slug)}`);
@@ -111,6 +117,21 @@ export default async function ProductPage({ params }) {
               <AddToCart product={p} />
             </div>
           </div>
+
+          {youtubeEmbedUrl(p.videoYoutube) && (
+            <section className="mt-8">
+              <h2 className="text-xl">Vidéo</h2>
+              <div className="mt-4 aspect-video overflow-hidden rounded-md border border-line">
+                <iframe
+                  src={youtubeEmbedUrl(p.videoYoutube)}
+                  title={`Vidéo — ${p.title}`}
+                  className="size-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </section>
+          )}
 
           {p.lengthM && (
             <section className="mt-8">
